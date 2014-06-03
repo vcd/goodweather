@@ -14,20 +14,20 @@
 
 	<script type="text/javascript">
 		
-		// Store Icons
+		// Meteo Icons
 		var icons = {	
 			"clear-day" : "B", 
 			"clear-night" : "C", 
-	 		"rain" : "R", 
-	 		"snow" : "G", 
-	 		"sleet" : "X", 
-	 		"wind" : "S", 
-	 		"fog" :"N", 
-	 		"cloudy" : "Y",
-	 		"partly-cloudy-day" : "H", 
-	 		"partly-cloudy-night" : "I"
- 		};
-		
+			"rain" : "R", 
+			"snow" : "G", 
+			"sleet" : "X", 
+			"wind" : "S", 
+			"fog" :"N", 
+			"cloudy" : "Y",
+			"partly-cloudy-day" : "H", 
+			"partly-cloudy-night" : "I"
+		};
+ 
 		// Cities
 		var cities = {	
 			"new york" 	: 	{coords: {latitude: 40.672060, longitude:-73.983898}},
@@ -37,48 +37,43 @@
 			"miami" 	:	{coords: {latitude: 25.790176, longitude: -80.140133}},
 			"current location" : ""
 		 };
-		
-				
+ 
+ 
 		// Get Weather	
 		function loadWeather(cityCoords){
-			
+ 			
  			console.log(cityCoords);
-
+ 
 			var latlng = cityCoords.coords.latitude + "," + cityCoords.coords.longitude;
-				
+ 							
 			var forecastURL = "https://api.forecast.io/forecast/e79ce4f49850f7741774f156ee9198bc/" + latlng;
-
+ 
 			$.ajax({
 			    url: forecastURL,
 			    jsonpCallback: 'jsonCallback',
 			    contentType: "application/json",
 			    dataType: 'jsonp',
 			    success: function(json) {
-			      
+ 
 			      // Returned Data 
 			      console.log(json);
-			      
+ 
 			      // Display Data Dynamically
 			      $("#current_temp").html(Math.round(json.currently.temperature)+"&#176;F");
-			      $("#current_temp").attr("data-icon", icons[json.currently.icon]);
-			      
 			      $("#current_summary").html(json.currently.summary);
-			      
-			      $("#ozone").html(json.currently.ozone);
-
+			      $("#current_temp").attr("data-icon",icons[json.currently.icon]);
+ 
 			    },
 			    error: function(e) {
 			       console.log(e.message);
 			    }
 			});
-
+ 
 		}
-		
-		// Load City
- 		function loadCity(city){
-
+ 		
+		function loadCity(city){
 			$("#location").html(city);
-			
+ 
 			if (city.toLowerCase() == "current location") {
 				if ( navigator.geolocation )
 					navigator.geolocation.getCurrentPosition(loadWeather,loadDefaultCity);
@@ -89,24 +84,26 @@
 			} else {
 				loadWeather(cities[city.toLowerCase()]);
 			}
-	
-			// loadWeather(cities[city.toLowerCase()]);
-
+ 
 		}
-		
+ 
 		function loadDefaultCity(){
 			loadCity("New York");
 		}
-		
+ 		
+ 
 		// On Page Load
 		$(document).ready(function(){
-			
-			loadCity();
-			
+ 
+			// Load City, then load weather
+			loadCity("New York");
+ 
+			// Bind click to City
+ 
 			$("a.city").bind("click",function(){
 				loadCity($(this).html());
 			});
-			
+ 
 		});
 
 	</script>
