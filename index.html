@@ -24,8 +24,13 @@
 			    contentType: "application/json",
 			    dataType: 'jsonp',
 			    success: function(json) {
-			       
-			       console.log(json);
+			      
+			      // Returned Data 
+			      console.log(json);
+			      
+			      // Display Data Dynamically
+			      $("#current_temp").html(Math.round(json.currently.temperature)+"&#176;F");
+			      $("#current_summary").html(json.currently.summary);
 
 			    },
 			    error: function(e) {
