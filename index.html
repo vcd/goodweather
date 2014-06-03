@@ -26,7 +26,7 @@
 			    dataType: 'jsonp',
 			    success: function(json) {
 			       
-			       console.log(json);
+			       console.log(json.currently.ozone);
  
 			    },
 			    error: function(e) {
@@ -39,7 +39,9 @@
 		
 		// On Page Load
 		$(document).ready(function(){
-			loadWeather();
+			
+			//loadWeather();
+		
 		});	
 
 
